@@ -6,6 +6,7 @@ import Chart from "./Chart";
 import ThemeContext from "../context/ThemeContext";
 import StockContext from "../context/StockContext";
 import { fetchQuote, fetchStockDetails } from "../api/stock-api";
+
 const Dashboard = () => {
   const { darkMode } = useContext(ThemeContext);
   const { stockSymbol } = useContext(StockContext);

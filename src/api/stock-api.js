@@ -1,39 +1,38 @@
 const basePath = "https://finnhub.io/api/v1";
 
-export const searchSymbol = async (query) => {
-  const url = `${basePath}/search?q=${query}&token=${process.env.REACT_APP_API_KEY}`;
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
+const fetchData = async (url, options = {}) => {
+  const res = await fetch(url, options);
+  if (!res.ok) {
+    const err = new Error(`An error has occured: ${res.status}`);
+    err.text = await res.text();
+    throw err;
   }
 
-  return await response.json();
+  return res.json();
+};
+export const searchSymbol = (query) => {
+  const params = new URLSearchParams({
+    q: query,
+    token: process.env.REACT_APP_API_KEY,
+  });
+  return fetchData(`${basePath}/search?${params}`);
 };
 
-export const fetchStockDetails = async (stockSymbol) => {
-  const url = `${basePath}/stock/profile2?symbol=${stockSymbol}&token=${process.env.REACT_APP_API_KEY}`;
-  const response = await fetch(url);
-
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
-  }
-
-  return await response.json();
+export const fetchStockDetails = (stockSymbol) => {
+  const params = new URLSearchParams({
+    symbol: stockSymbol,
+    token: process.env.REACT_APP_API_KEY,
+  });
+  return fetchData(`${basePath}/stock/profile2?${params}`);
 };
 
-export const fetchQuote = async (stockSymbol) => {
-  const url = `${basePath}/quote?symbol=${stockSymbol}&token=${process.env.REACT_APP_API_KEY}`;
-  const response = await fetch(url);
+export const fetchQuote = (stockSymbol) => {
+  const params = new URLSearchParams({
+    symbol: stockSymbol,
+    token: process.env.REACT_APP_API_KEY,
+  });
 
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
-  }
-
-  return await response.json();
+  return fetchData(`${basePath}/quote?${params}`);
 };
 
 export const fetchHistoricalData = async (
@@ -42,13 +41,15 @@ export const fetchHistoricalData = async (
   from,
   to
 ) => {
-  const url = `${basePath}/stock/candle?symbol=${stockSymbol}&resolution=${resolution}&from=${from}&to=${to}&token=${process.env.REACT_APP_API_KEY}`;
-  const response = await fetch(url);
+  const params = new URLSearchParams({
+    symbol: stockSymbol,
+    resolution: resolution,
+    from: from,
+    to: to,
+    token: process.env.REACT_APP_API_KEY,
+  });
 
-  if (!response.ok) {
-    const message = `An error has occured: ${response.status}`;
-    throw new Error(message);
-  }
-
-  return await response.json();
+  return fetchData(
+    `${basePath}/stock/candle?${params}&/resolution=${params}&from=${params}&to=${params}&${params}`
+  );
 };
