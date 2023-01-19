@@ -4,7 +4,7 @@ import ThemeContext from "./context/ThemeContext";
 import StockContext from "./context/StockContext";
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [stockSymbol, setStockSymbol] = useState("FB");
+  const [stockSymbol, setStockSymbol] = useState("GOOGL");
   return (
     <ThemeContext.Provider value={{ darkMode, setDarkMode }}>
       <StockContext.Provider value={{ stockSymbol, setStockSymbol }}>
