@@ -1,4 +1,4 @@
-export const mockSearchResulst = {
+export const mockSearchResults = {
   count: 4,
   result: [
     {
